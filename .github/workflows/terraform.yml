@@ -79,3 +79,6 @@ jobs:
         run: cd infra &&
           terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} &&
           terraform apply "${{ inputs.environment }}.plan"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
