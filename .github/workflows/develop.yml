@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Open Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v4
         with:
           title: Automatically generated pull request
           commit-message: Automated pull request
