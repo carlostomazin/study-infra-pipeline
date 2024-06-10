@@ -9,6 +9,9 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  GH_TOKEN: ${{ github.token }}
+
 jobs:
   terraform:
     uses: ./.github/workflows/terraform.yml
