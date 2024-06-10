@@ -31,7 +31,7 @@ jobs:
         with:
           title: Automatically generated pull request
           commit-message: Automated pull request
-          branch: main
-          base: develop
+          branch: develop
+          base: main
           body: |
-            This pull request was automatically generated.
+            This pull request was automatically generated for the DEV environment.
