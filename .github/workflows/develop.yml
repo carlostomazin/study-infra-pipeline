@@ -20,18 +20,20 @@ jobs:
       aws-lock-dynamodb-table: "carlostomazin-sa-east-1-terraform-lock"
 
   open_pull_request:
-    runs-on: ubuntu-latest
     needs: terraform
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    runs-on: ubuntu-latest
 
-      - name: Open Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          title: Automatically generated pull request
-          commit-message: Automated pull request
-          branch: develop
-          base: main
-          body: |
-            This pull request was automatically generated for the DEV environment.
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Git CLI
+        run: |
+          sudo apt-get install git
+
+      - name: Buscar branch principal
+        run: git fetch origin main
+
+      - name: Criar pull request
+        run: |
+          git checkout develop
+          git compare --base main | gh pr create -f -m "Atualizar main com as últimas alterações do develop"
