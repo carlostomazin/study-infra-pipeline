@@ -39,4 +39,4 @@ jobs:
       - name: Criar pull request
         run: |
           git checkout develop
-          gh pr create -f -m "Atualizar main com as últimas alterações do develop"
+          gh pr create --title "Pull request title" --body "Pull request body"
