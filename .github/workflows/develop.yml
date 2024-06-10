@@ -27,16 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Instalar Git CLI
-        run: |
-          sudo apt-get install git
-
-      - name: Buscar branch principal
-        run: git fetch origin main
-
-      - name: Criar pull request
-        run: |
-          git checkout develop
-          gh pr create --title "Pull request title" --body "Pull request body"
+      - name: create pull request
+        run: gh pr create -B develop -H main --title 'Merge main into develop' --body 'Created by Github action'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
