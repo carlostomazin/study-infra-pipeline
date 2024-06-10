@@ -36,4 +36,4 @@ jobs:
       - name: Criar pull request
         run: |
           git checkout develop
-          git compare --base main | gh pr create -f -m "Atualizar main com as últimas alterações do develop"
+          gh pr create -f -m "Atualizar main com as últimas alterações do develop"
