@@ -116,7 +116,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: terrafom/build
-          path: dist/portifolio/
+          path: app/dist/
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
