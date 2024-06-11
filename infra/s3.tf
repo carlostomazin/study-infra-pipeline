@@ -31,6 +31,24 @@ resource "aws_s3_bucket_policy" "this" {
 })
 }
 
+data "aws_iam_policy_document" "s3_policy_document" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = ["292892668466"]
+    }
+
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      aws_s3_bucket.example.arn,
+      "${aws_s3_bucket.example.arn}/*",
+    ]
+  }
+}
+
 resource "aws_s3_bucket_website_configuration" "blog" {
   bucket = aws_s3_bucket.bucket.id
   index_document {
