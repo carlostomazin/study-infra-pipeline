@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "bucket" {
 }
 
 resource "aws_s3_bucket_versioning" "this" {
-  bucket = aws_s3_bucket.origin.id
+  bucket = aws_s3_bucket.bucket.id
 
   versioning_configuration {
     status = "Enabled"
@@ -13,21 +13,22 @@ resource "aws_s3_bucket_versioning" "this" {
 
 resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.bucket.id
-  policy = data.aws_iam_policy_document.s3_policy_document.json
-}
-
-data "aws_iam_policy_document" "s3_policy_document" {
-  statement {
-    sid       = "S3GetObjectForCloudFront"
-    actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.origin.arn}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.this.iam_arn]
-
-    }
-  }
+  policy = jsondecode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "${aws_s3_bucket.bucket.arn}/*"
+            ]
+        }
+    ]
+})
 }
 
 resource "aws_s3_bucket_website_configuration" "blog" {
