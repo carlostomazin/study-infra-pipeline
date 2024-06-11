@@ -20,6 +20,7 @@ jobs:
       aws-lock-dynamodb-table: "carlostomazin-sa-east-1-terraform-lock"
 
   app:
+    if: needs.infra.outputs.destroy != 'true'
     uses: ./.github/workflows/app.yml
     needs: infra
     with:

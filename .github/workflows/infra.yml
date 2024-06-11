@@ -22,9 +22,12 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         shell: bash
+    outputs:
+      destroy: ${{ steps.read-destroy-config.outputs.destroy }}
 
     steps:
       - name: Checkout code
