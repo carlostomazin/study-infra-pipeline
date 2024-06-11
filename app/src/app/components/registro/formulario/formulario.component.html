@@ -1,0 +1,42 @@
+<div class="min-h-screen bg-gray-100 flex items-center justify-center">
+    <form [formGroup]="formularioRegistro" (ngSubmit)="onSubmit()"
+        class="w-full max-w-lg mx-auto p-8 bg-white shadow-md rounded-lg">
+        <!-- Nome Completo -->
+        <div class="mb-6">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2" for="nomeCompleto">
+                Nome Completo:
+            </label>
+            <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                formControlName="nome" name="nomeCompleto" id="nomeCompleto" type="text" placeholder="Ricardo Araujo">
+            <p class="text-gray-600 text-xs italic">Digite corretamente o nome para efetuarmos o cadastro!</p>
+        </div>
+    
+        <!-- Valor do Contribuinte -->
+        <div class="mb-6">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2" for="valorContribuinte">
+                Valor do Contribuinte:
+            </label>
+            <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                formControlName="valor" id="valorContribuinte" type="text" placeholder="R$145,98"
+                pattern="^\R?\d{1,3}(.\d{3})*,\d{2}$">
+            <p class="text-gray-600 text-xs italic">Digite o valor no formato R$145,98.</p>
+        </div>
+    
+        <!-- Data de Pagamento -->
+        <div class="mb-6">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2" for="dataPagamento">
+                Data de Pagamento:
+            </label>
+            <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                formControlName="dataPagto" id="dataPagamento" type="date">
+            <p class="text-gray-600 text-xs italic">Escolha a data de pagamento.</p>
+        </div>
+    
+        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            Enviar
+        </button>
+    </form>
+</div>

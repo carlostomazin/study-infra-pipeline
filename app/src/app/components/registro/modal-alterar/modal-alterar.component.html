@@ -1,0 +1,19 @@
+<h2 mat-dialog-title class="text-center text-2xl font-semibold">Alterar Registro</h2>
+<mat-dialog-content class="mt-4">
+    <p class="text-center">Preencha os campos abaixo para alterar o registro.</p>
+    <mat-form-field class="w-full">
+        <input matInput placeholder="Nome" [(ngModel)]="registroAlterar.nome">
+    </mat-form-field>
+    <mat-form-field class="w-full">
+        <input matInput placeholder="Data de Pagamento" [(ngModel)]="registroAlterar.dataPagto" type="date">
+    </mat-form-field>
+    <mat-form-field class="w-full">
+        <input matInput placeholder="Valor" [(ngModel)]="registroAlterar.valor" type="text">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-center mt-8">
+    <button mat-button class="mr-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        (click)="onClose()">Cancelar</button>
+    <button mat-raised-button color="primary" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        (click)="onSave()">Salvar</button>
+</mat-dialog-actions>
