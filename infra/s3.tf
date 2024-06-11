@@ -13,39 +13,22 @@ resource "aws_s3_bucket_versioning" "this" {
 
 resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.bucket.id
-  policy = jsondecode({
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "PublicReadGetObject",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "${aws_s3_bucket.bucket.arn}/*"
-            ]
-        }
-    ]
-})
+  policy = data.aws_iam_policy_document.s3_policy_document.json
 }
 
 data "aws_iam_policy_document" "s3_policy_document" {
   statement {
-    principals {
-      type        = "AWS"
-      identifiers = ["292892668466"]
-    }
-
-    actions = [
-      "s3:GetObject"
-    ]
-
+    sid       = "S3GetObjectForCloudFront"
+    actions   = ["s3:GetObject"]
     resources = [
       aws_s3_bucket.example.arn,
       "${aws_s3_bucket.example.arn}/*",
     ]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["292892668466"]
+    }
   }
 }
 
