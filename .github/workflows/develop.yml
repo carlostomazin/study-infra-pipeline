@@ -25,4 +25,3 @@ jobs:
     with:
       aws-assume-role-arn: "arn:aws:iam::292892668466:role/github-actions-carlostomazin-pipeline"
       aws-region: "sa-east-1"
-      destroy: needs.infra.outputs.destroy
