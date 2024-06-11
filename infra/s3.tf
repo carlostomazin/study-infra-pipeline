@@ -21,8 +21,8 @@ data "aws_iam_policy_document" "s3_policy_document" {
     sid       = "S3GetObjectForCloudFront"
     actions   = ["s3:GetObject"]
     resources = [
-      aws_s3_bucket.example.arn,
-      "${aws_s3_bucket.example.arn}/*",
+      aws_s3_bucket.bucket.arn,
+      "${aws_s3_bucket.bucket.arn}/*",
     ]
 
     principals {
