@@ -21,7 +21,7 @@ resource "aws_s3_bucket_policy" "this" {
         Effect = "Allow",
         Principal = "*",
         Action = "s3:GetObject",
-        Resource = aws_s3_bucket.bucket.arn,
+        Resource = "${aws_s3_bucket.bucket.arn}/*",
       },
     ],
   })
