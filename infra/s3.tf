@@ -1,39 +1,59 @@
-resource "aws_s3_bucket" "this" {
+resource "aws_s3_bucket" "bucket" {
   bucket = var.bucket_name
+  force_destroy = true
 }
 
-resource "aws_s3_bucket_acl" "this" {
-  bucket = aws_s3_bucket.this.id
-  acl    = "private"
-}
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.origin.id
 
-resource "aws_s3_bucket_website_configuration" "this" {
-  bucket = aws_s3_bucket.this.bucket
-
-  index_document {
-    suffix = "index.html"
+  versioning_configuration {
+    status = "Enabled"
   }
-
-  error_document {
-    key = "index.html"
-  }
-
 }
 
 resource "aws_s3_bucket_policy" "this" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.bucket.id
+  policy = data.aws_iam_policy_document.s3_policy_document.json
+}
 
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Id      = "AllowGetObjects"
-    Statement = [
-      {
-        Sid       = "AllowPublic"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.this.arn}/**"
-      }
-    ]
-  })
+data "aws_iam_policy_document" "s3_policy_document" {
+  statement {
+    sid       = "S3GetObjectForCloudFront"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.origin.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.this.iam_arn]
+
+    }
+  }
+}
+
+resource "aws_s3_bucket_website_configuration" "blog" {
+  bucket = aws_s3_bucket.bucket.id
+  index_document {
+    suffix = "index.html"
+  }
+  error_document {
+    key = "error.html"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "public_access_block" {
+  bucket = aws_s3_bucket.bucket.id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+##### will upload all the files present under HTML folder to the S3 bucket #####
+resource "aws_s3_object" "upload_object" {
+  for_each      = fileset("html/", "*")
+  bucket        = aws_s3_bucket.bucket.id
+  key           = each.value
+  source        = "html/${each.value}"
+  etag          = filemd5("html/${each.value}")
+  content_type  = "text/html"
 }
