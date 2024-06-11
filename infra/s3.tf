@@ -26,14 +26,3 @@ resource "aws_s3_bucket_policy" "this" {
     ],
   })
 }
-
-
-##### will upload all the files present under HTML folder to the S3 bucket #####
-resource "aws_s3_object" "upload_object" {
-  for_each      = fileset("html/", "*")
-  bucket        = aws_s3_bucket.bucket.id
-  key           = each.value
-  source        = "html/${each.value}"
-  etag          = filemd5("html/${each.value}")
-  content_type  = "text/html"
-}
